@@ -23,6 +23,7 @@ public class AuthController(RaceDayApiClient api):BaseController(api)
  [HttpGet]
     public IActionResult Register()=>View();
 
+ //fixed a validation of foreign key
  [HttpPost,ValidateAntiForgeryToken]
     public async Task<IActionResult> Register(RegisterVm vm){
         if(!ModelState.IsValid)return View(vm);
