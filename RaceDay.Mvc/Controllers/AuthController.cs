@@ -19,6 +19,7 @@ public class AuthController(RaceDayApiClient api):BaseController(api)
         HttpContext.Session.SetString("Email",d.GetProperty("email").GetString()!);
         return RedirectToAction("Index",d.GetProperty("role").GetString()=="Organiser"?"Organiser":"Home");
     }
+ //fixed register
  [HttpGet]
     public IActionResult Register()=>View();
 
