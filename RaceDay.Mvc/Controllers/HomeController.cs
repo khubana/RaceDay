@@ -10,7 +10,8 @@ public class HomeController(RaceDayApiClient api) : BaseController(api)
         ViewBag.Events=(await Api.Get("api/events"))?.RootElement;
         return View();
     } 
-    
+
+    //fixed error handling method
     public IActionResult Error()=>View(); 
 
 }
