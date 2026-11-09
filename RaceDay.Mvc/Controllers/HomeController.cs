@@ -1,4 +1,6 @@
 using Microsoft.AspNetCore.Mvc; using RaceDay.Mvc.Services;
+
+//created a name space of home controller
 namespace RaceDay.Mvc.Controllers;
 public class HomeController(RaceDayApiClient api) : BaseController(api)
 { 
