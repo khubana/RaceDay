@@ -1,6 +1,6 @@
 # RaceDay – Combined Part 2 and Part 3 Solution
 
-This repository contains one Visual Studio solution for the RaceDay platform. The API remains a separate ASP.NET Core project and the MVC frontend consumes it over HTTP; the MVC project has no direct database access.
+this repository contains one Visual Studio solution for the RaceDay platform. The API remains a separate ASP.NET Core project and the MVC frontend consumes it over HTTP; the MVC project has no direct database access.
 
 ## Solution structure
 
