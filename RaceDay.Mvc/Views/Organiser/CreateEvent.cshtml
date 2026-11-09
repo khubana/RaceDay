@@ -1,0 +1,47 @@
+@model EventVm
+@{
+    ViewData["Title"] = Model.EventID == 0 ? "Create Event" : "Edit Event";
+    var editing = Model.EventID != 0;
+}
+<h1 class="fw-bold">@ViewData["Title"]</h1>
+<div class="card p-4 shadow-sm">
+    <form asp-action="@(editing ? "EditEvent" : "CreateEvent")" method="post">
+        <input asp-for="EventID" type="hidden" />
+        <div asp-validation-summary="ModelOnly" class="text-danger mb-3"></div>
+
+        <div class="mb-3">
+            <label asp-for="EventName" class="form-label">Event name</label>
+            <input asp-for="EventName" class="form-control" />
+            <span asp-validation-for="EventName" class="text-danger"></span>
+        </div>
+        <div class="mb-3">
+            <label asp-for="EventDescription" class="form-label">Description</label>
+            <textarea asp-for="EventDescription" class="form-control" rows="3"></textarea>
+            <span asp-validation-for="EventDescription" class="text-danger"></span>
+        </div>
+        <div class="mb-3">
+            <label asp-for="EventDate" class="form-label">Date</label>
+            <input asp-for="EventDate" type="date" class="form-control" />
+            <span asp-validation-for="EventDate" class="text-danger"></span>
+        </div>
+        <div class="mb-3">
+            <label asp-for="EventLocation" class="form-label">Location</label>
+            <input asp-for="EventLocation" class="form-control" />
+            <span asp-validation-for="EventLocation" class="text-danger"></span>
+        </div>
+        <div class="mb-3">
+            <label asp-for="EventStatus" class="form-label">Status</label>
+            <select asp-for="EventStatus" class="form-select">
+                <option value="open">Open</option>
+                <option value="closed">Closed</option>
+                <option value="cancelled">Cancelled</option>
+                <option value="completed">Completed</option>
+            </select>
+        </div>
+        <button type="submit" class="btn btn-primary">Save event</button>
+        <a asp-action="Events" class="btn btn-outline-secondary">Cancel</a>
+    </form>
+</div>
+@section Scripts {
+    <partial name="_ValidationScriptsPartial" />
+}

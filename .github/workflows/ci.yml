@@ -1,0 +1,22 @@
+name: RaceDay CI
+on:
+  push:
+    branches: [ main, master, part2, part3-mvc ]
+  pull_request:
+    branches: [ main, master, part2, part3-mvc ]
+jobs:
+  build-and-test:
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v4
+      - uses: actions/setup-dotnet@v4
+        with:
+          dotnet-version: 8.0.x
+      - name: Restore solution
+        run: dotnet restore RaceDay.sln
+      - name: Build solution
+        run: dotnet build RaceDay.sln --configuration Release --no-restore
+      - name: Build MVC project
+        run: dotnet build RaceDay.Mvc/RaceDay.Mvc.csproj --configuration Release --no-restore
+      - name: Test API
+        run: dotnet test RaceDay.Api/RaceDay.Tests/RaceDay.Tests.csproj --configuration Release --no-build

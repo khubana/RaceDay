@@ -1,0 +1,62 @@
+@using System.Text.Json
+@{
+    ViewData["Title"] = "Event details";
+    JsonElement? eventData = ViewBag.Event as JsonElement?;
+}
+
+@if (eventData.HasValue && eventData.Value.ValueKind == JsonValueKind.Object)
+{
+    var e = eventData.Value;
+    <div class="hero mb-4">
+        <h1 class="fw-bold">@e.GetProperty("eventName").GetString()</h1>
+        <p>@e.GetProperty("eventDescription").GetString()</p>
+        <p class="mb-0">
+            📍 @e.GetProperty("eventLocation").GetString()
+            · @e.GetProperty("eventDate").GetDateTime().ToString("dd MMM yyyy")
+        </p>
+    </div>
+
+    <h3 class="mb-3">Available categories</h3>
+    @if (e.TryGetProperty("categories", out var categories) &&
+         categories.ValueKind == JsonValueKind.Array && categories.GetArrayLength() > 0)
+    {
+        <div class="row g-3">
+            @foreach (var category in categories.EnumerateArray())
+            {
+                var categoryId = category.GetProperty("categoryID").GetInt32();
+                var categoryName = category.GetProperty("categoryName").GetString();
+                var capacity = category.GetProperty("maxParticipants").GetInt32();
+                var fee = category.GetProperty("entryFee").GetDecimal();
+
+                <div class="col-md-6 col-lg-4">
+                    <div class="card p-3 h-100">
+                        <h5>@categoryName</h5>
+                        <p>Capacity: @capacity</p>
+                        <p>Entry fee: R @fee.ToString("F2")</p>
+                        @if (Context.Session.GetString("RoleName") == "Participant")
+                        {
+                            <form asp-action="Enrol" method="post" class="mt-auto">
+                                @Html.AntiForgeryToken()
+                                <input type="hidden" name="id" value="@e.GetProperty("eventID").GetInt32()" />
+                                <input type="hidden" name="categoryId" value="@categoryId" />
+                                <button type="submit" class="btn btn-primary">Enter event</button>
+                            </form>
+                        }
+                        else
+                        {
+                            <a asp-controller="Auth" asp-action="Login" class="btn btn-outline-primary mt-auto">Login to enter</a>
+                        }
+                    </div>
+                </div>
+            }
+        </div>
+    }
+    else
+    {
+        <div class="alert alert-info">There are no categories available for this event yet.</div>
+    }
+}
+else
+{
+    <div class="alert alert-warning">Event details could not be loaded. Check that the RaceDay API is running.</div>
+}
