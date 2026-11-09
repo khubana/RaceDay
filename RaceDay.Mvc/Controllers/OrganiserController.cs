@@ -1,4 +1,5 @@
 using Microsoft.AspNetCore.Mvc; using RaceDay.Mvc.Models; using RaceDay.Mvc.Services;
+//created a name space of organiser controller
 namespace RaceDay.Mvc.Controllers;
 public class OrganiserController(RaceDayApiClient api):BaseController(api)
 {
