@@ -1,7 +1,7 @@
 using Microsoft.AspNetCore.Mvc; using RaceDay.Mvc.Models; using RaceDay.Mvc.Services;
 namespace RaceDay.Mvc.Controllers;
 public class AuthController(RaceDayApiClient api):BaseController(api)
-{
+{//createad a name space
  [HttpGet]
     public IActionResult Login()=>View();
  [HttpPost,ValidateAntiForgeryToken] 
