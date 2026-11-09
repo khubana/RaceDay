@@ -35,6 +35,8 @@ public class AuthController(RaceDayApiClient api):BaseController(api)
         TempData["Success"]="Registration successful. Please log in.";
         return RedirectToAction("Login");
     }
+
+ //fxed HttpPost,ValidateAntiForgeryToke
  [HttpPost,ValidateAntiForgeryToken] 
     public async Task<IActionResult> Logout(){
         await Api.SendJson(HttpMethod.Post,"api/auth/logout");
