@@ -30,7 +30,13 @@ public class OrganiserController(RaceDayApiClient api):BaseController(api)
   return View();
  }
                                  
- [HttpGet] public IActionResult CreateEvent(){var g=RequireRole("Organiser");if(g!=null)return g;return View(new EventVm());}
+ [HttpGet] 
+ public IActionResult CreateEvent(){
+  var g=RequireRole("Organiser");
+  if(g!=null)return g;
+  return View(new EventVm());
+ }
+                                 
  [HttpPost,ValidateAntiForgeryToken] public async Task<IActionResult> CreateEvent(EventVm vm){var g=RequireRole("Organiser");if(g!=null)return g;if(!ModelState.IsValid)return View(vm);var r=await Api.SendJson(HttpMethod.Post,"api/events",new{vm.EventName,vm.EventDescription,vm.EventDate,vm.EventLocation,vm.EventStatus});if(!r.Ok){ModelState.AddModelError("",r.Message);return View(vm);}return RedirectToAction("Events");}
  [HttpGet] public async Task<IActionResult> EditEvent(int id){var g=RequireRole("Organiser");if(g!=null)return g;var d=await Api.Get($"api/events/{id}");if(d==null)return NotFound();var e=d.RootElement;return View("CreateEvent",new EventVm{EventID=id,EventName=e.GetProperty("eventName").GetString()!,EventDescription=e.GetProperty("eventDescription").GetString()!,EventDate=e.GetProperty("eventDate").GetDateTime(),EventLocation=e.GetProperty("eventLocation").GetString()!,EventStatus=e.GetProperty("eventStatus").GetString()!});}
  [HttpPost,ValidateAntiForgeryToken] public async Task<IActionResult> EditEvent(EventVm vm){var g=RequireRole("Organiser");if(g!=null)return g;var r=await Api.SendJson(HttpMethod.Put,$"api/events/{vm.EventID}",new{vm.EventName,vm.EventDescription,vm.EventDate,vm.EventLocation,vm.EventStatus});if(!r.Ok){ModelState.AddModelError("",r.Message);return View("CreateEvent",vm);}return RedirectToAction("Events");}
