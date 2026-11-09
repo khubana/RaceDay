@@ -2,7 +2,7 @@ using Microsoft.AspNetCore.Mvc; using RaceDay.Mvc.Models; using RaceDay.Mvc.Serv
 //created a name space of organiser controller
 namespace RaceDay.Mvc.Controllers;
 public class OrganiserController(RaceDayApiClient api):BaseController(api)
-{
+{//start of class
  public async Task<IActionResult> Index(){
         var g=RequireRole("Organiser");
         if(g!=null)return g;
