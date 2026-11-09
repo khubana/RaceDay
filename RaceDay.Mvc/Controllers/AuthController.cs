@@ -5,6 +5,7 @@ public class AuthController(RaceDayApiClient api):BaseController(api)
  [HttpGet]
     public IActionResult Login()=>View();
  [HttpPost,ValidateAntiForgeryToken] 
+ //fixed a login method
     public async Task<IActionResult> Login(LoginVm vm){
         if(!ModelState.IsValid)return View(vm); 
         var r=await Api.SendJson(HttpMethod.Post,"api/auth/login",vm);
